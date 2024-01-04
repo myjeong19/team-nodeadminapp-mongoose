@@ -15,10 +15,10 @@
     <ol class="breadcrumb">
       <li>
         <a href="/main">홈</a>
-      </li>
+      </li>>
       <li>
         <a>관리자정보관리</a>
-      </li>
+      </li>>
       <li class="active">
         <strong>조회</strong>
       </li>
@@ -28,7 +28,7 @@
 </div>
 
 <!--우측 콘텐츠 영역 -->
-<form action="/member/create" method="post">
+<form action="/member/create" id="memberForm" method="post">
   <div class="wrapper wrapper-content">
     <div class="ibox-content m-b-sm border-bottom">
       <div class="row">
@@ -43,46 +43,40 @@
         <div class="col-sm-6">
           <div class="form-group">
             <div>
-              <label class="control-label">이메일</label>
-              <input type="text" class="form-control mb-3" />
+              <label class="control-label col-6">이메일</label>
+              <input type="text" name="email" id="email" class="form-control mb-3" />
             </div>
             <div class="form-group">
               <label class="control-label col-6">이름</label>
-              <input type="text" class="form-control mb-3" />
+              <input type="text" name="name" id="name" class="form-control mb-3" />
             </div>
             <div class="form-group">
-              <label class="control-label">고유번호</label>
-              <input type="text" class="form-control" />
+              <label class="control-label col-6">암호</label>
+              <input type="password" name="member_password" id="member_password" class="form-control" />
             </div>
             <div class="form-group">
-              <label class="control-label">전화번호</label>
-              <input type="text" class="form-control" />
+              <label class="control-label col-6">전화번호</label>
+              <input type="text" name="telephone" id="telephone" class="form-control" />
             </div>
             <div class="form-group">
-              <label class="control-label">생년월일</label>
-              <input type="text" class="form-control" />
+              <label class="control-label col-6">생년월일</label>
+              <input type="text" name="birth_date" id="birth_date" class="form-control" />
             </div>
             <div class="form-group">
-              <label class="control-label">상태</label>
-              <input type="text" class="form-control" />
+              <label class="control-label col-6">상태</label>
+              <select name="use_state_code" id="use_state_code" class="form-control">
+                <option value="9">선택</option>
+                <option value="0">미사용</option>
+                <option value="1">사용중</option>
+              </select>
             </div>
             <div class="form-group">
-              <label class="control-label">생성일시</label>
-              <input type="text" class="form-control" />
-            </div>
-            <div class="form-group">
-              <label class="control-label">수정일시</label>
-              <input type="text" class="form-control" />
-            </div>
-
-            <div class="form-group">
-              <label class="control-label">수정일시</label>
-              <input type="text" class="form-control" />
+              <label class="control-label col-6">가입일시</label>
+              <input type="date" name="reg_date" id="reg_date" class="form-control" readonly />
             </div>
           </div>
         </div>
       </div>
-
       <div class="text-center">
         <button type="submit" class="btn btn-primary">저장</button>
         <a href="/member/list" class="btn btn-info">목록</a>
@@ -90,3 +84,51 @@
     </div>
   </div>
 </form>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  
+  document.getElementById('reg_date').value = new Date().toISOString().slice(0, 10);
+
+  $('#memberForm').submit(function () {
+    //유효성 검사(*현재 오작동*)
+    alert('test');
+  
+    if ($('#name').val() === "") {
+      alert('이름을 입력해주세요.');
+      $('#name').focus();
+      return false;
+    }
+
+    if ($('#member_password').val() === "") {
+      alert('비밀번호를 입력해주세요.');
+      $('#member_password').focus();
+      return false;
+    }
+
+    if ($('#email').val() === "") {
+      alert('email을 입력해주세요.');
+      $('#email').focus();
+      return false;
+    }
+
+    if ($('#telephone').val() === "") {
+      alert('전화번호를 입력해주세요.');
+      $('#telephone').focus();
+      return false;
+    }
+
+    if ($('#birth_date').val() === "") {
+      alert('생년월일을 입력해주세요.');
+      $('#birth_date').focus();
+      return false;
+    }
+
+    if ($('#use_state_code').val() === '9') {
+      alert('상태를 선택해주세요.');
+      $('#use_state_code').focus();
+      return false;
+    }
+    return true;
+
+  });
+</script>

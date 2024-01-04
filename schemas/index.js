@@ -6,7 +6,7 @@ const connect = () => {
   }
 
   mongoose.connect(
-    'mongodb://myjeong19:7103@127.0.0.1:27017/admin',
+    'mongodb://yujin:dPsvlssla0!@127.0.0.1:27017/admin',
     {
       dbName: 'modu_chat',
     },
@@ -29,8 +29,9 @@ mongoose.connection.on('disconnected', () => {
   connect();
 });
 
-require('./article.js');
+// require('./article.js');
 require('./member.js');
+// require('./admin_member.js');
 require('./admin_member.js');
 require('./channel.js');
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const { Schema } = mongoose;
 
-const memberSchema = new Schema({
+const member = new Schema({
   email: {
     type: String,
     required: true,
@@ -18,7 +18,7 @@ const memberSchema = new Schema({
   },
   profile_img_path: {
     type: String,
-    required: true,
+    required: false,
   },
   telephone: {
     type: String,
@@ -54,6 +54,6 @@ const memberSchema = new Schema({
   },
 });
 
-memberSchema.plugin(AutoIncrement, { inc_field: 'member_id' });
+member.plugin(AutoIncrement, { inc_field: 'member_id' });
 
-module.exports = mongoose.model('Member', memberSchema);
+module.exports = mongoose.model('Member', member);
