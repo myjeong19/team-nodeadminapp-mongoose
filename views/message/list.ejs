@@ -22,7 +22,7 @@
         <a href="../message/list">메세지 정보 관리 -></a>
       </li>
       <li class="active">
-        <strong>조회</strong>
+        <strong> 조회</strong>
       </li>
     </ol>
   </div>
@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label" for="OrderNo">채널명</label>
+                    <label class="control-label" for="channel_id">채널명</label>
                     <select name="channel_id" id="channel_id" class="form-control">
                       <% var keys = Object.keys(channel_id_value_obj).sort();%>
                         <% for(var i = 0; i < keys.length; i++){ %>
@@ -49,13 +49,13 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label" for="OrderName">닉네임</label>
+                    <label class="control-label" for="nick_name">닉네임</label>
                     <input type="text" name="nick_name" id="nick_name" value="<%=searchOption.nick_name%>" class="form-control">
                 </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                  <label class="control-label" for="OrderName">메세지타입</label>
+                  <label class="control-label" for="msg_type_code">메세지타입</label>
                   <select name="msg_type_code" id="msg_type_code" class="form-control">
                     <% var keys = Object.keys(msg_type_code_value_obj).sort();%>
                       <% for(var i = 0; i < keys.length; i++){ %>

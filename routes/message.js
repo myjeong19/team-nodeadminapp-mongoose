@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const path = require("path");
+const app = express();
+
+// 정적 파일을 제공할 디렉토리 설정
+app.use("/", express.static(path.join(__dirname, "public")));
+
 //각종 라이브러리
 var moment = require("moment");
 const ChannelMessage = require("../schemas/channelMessage");
