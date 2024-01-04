@@ -57,7 +57,7 @@
     </div>
     <div class="text-center">
       <button type="button" class="btn btn-primary">조회</button>
-      <a href="/member/create" class="btn btn-info">신규</a>
+      <a href="/channel/create" class="btn btn-info">신규</a>
     </div>
   </div>
 
@@ -83,30 +83,30 @@
                 </tr>
               </thead>
               <tbody class="hoverTblBody">
-                <% for (let i = 0; i < channelList.length; i ++) { %>
+                <% for (let i = 0; i < channels.length; i ++) { %>
 
                 <tr>
                   <td>
-                    <a href="/channel/modify/<%= channelList[i].channel_id %>"
-                      ><%= channelList[i].channel_id %></a
+                    <a href="/channel/modify/<%= channels[i].channel_id %>"
+                      ><%= channels[i].channel_id %></a
                     >
                   </td>
-                  <td><%= channelList[i].community_id %></td>
-                  <td><%= channelList[i].channel_name %></td>
-                  <td><%= channelList[i].channel_desc %></td>
-                  <td><%= channelList[i].user_limit %></td>
+                  <td><%= channels[i].community_id %></td>
+                  <td><%= channels[i].channel_name %></td>
+                  <td><%= channels[i].channel_desc %></td>
+                  <td><%= channels[i].user_limit %></td>
                   <td>
                     <img
                       class="w-50"
-                      src="<%= channelList[i].channel_img_path %>"
-                      alt="<%= channelList[i].channel_name %> 채널 대표 이미지"
+                      src="<%= channels[i].channel_img_path %>"
+                      alt="<%= channels[i].channel_name %> 채널 대표 이미지"
                     />
                   </td>
-                  <td><%= channelList[i].channel_state_code %></td>
-                  <td><%= channelList[i].reg_date %></td>
-                  <td><%= channelList[i].reg_member_id %></td>
-                  <td><%= channelList[i].edit_date %></td>
-                  <td><%= channelList[i].edit_member_id %></td>
+                  <td><%= channels[i].channel_state_code %></td>
+                  <td><%= channels[i].reg_date %></td>
+                  <td><%= channels[i].reg_member_id %></td>
+                  <td><%= channels[i].edit_date %></td>
+                  <td><%= channels[i].edit_member_id %></td>
                 </tr>
                 <% } %>
               </tbody>

@@ -32,5 +32,6 @@ mongoose.connection.on('disconnected', () => {
 require('./article.js');
 require('./member.js');
 require('./admin_member.js');
+require('./channel.js');
 
 module.exports = connect;
