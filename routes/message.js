@@ -6,15 +6,12 @@ var moment = require("moment");
 const ChannelMessage = require("../schemas/channelMessage");
 const Swal = require("sweetalert2");
 
-//modify할 때 쓰이는 함수
-//modify에서 선언하면, route주소로 접근할때마다 함수가 재선언되니까 전역으로 선언함.
-//밑에서 다시 설명.
-const mergeByKey = (baseObj, otherObj) => {
-  return Object.keys(baseObj).reduce((result, key) => {
-    result[key] = otherObj[key];
-    return result;
-  }, baseObj);
-};
+//개인용 util
+const {
+  mergeByKey,
+  channel_id_value_obj,
+  msg_type_code_value_obj,
+} = require("./utils/utiles");
 
 //searchOption 초기값으로 ""를 줘서
 //list.ejs에서는 ""가 들어오면 select메뉴는 전체를 가리키도록 함.
@@ -30,7 +27,13 @@ router.get("/list", async (req, res) => {
   //성능이 안 좋음. 나중에 리액트같은 거 할 때, 필요한 만큼만 가져오는 식으로 구현할 거라 깊이 안 함
   const msgs = await ChannelMessage.find({});
 
-  res.render("message/list", { msgs, searchOption, moment });
+  res.render("message/list", {
+    msgs,
+    searchOption,
+    moment,
+    channel_id_value_obj,
+    msg_type_code_value_obj,
+  });
 });
 
 //조회코드
@@ -69,7 +72,13 @@ router.post("/list", async (req, res) => {
   //filteredObject가 {}이므로, .find({filteredObject}) 이런 식으로 안씀
   const msgs = await ChannelMessage.find(filteredObject);
 
-  res.render("message/list", { msgs, searchOption, moment });
+  res.render("message/list", {
+    msgs,
+    searchOption,
+    moment,
+    channel_id_value_obj,
+    msg_type_code_value_obj,
+  });
 });
 
 //신규등록 첫 화면
@@ -117,7 +126,12 @@ router.get("/modify/:channel_msg_id", async (req, res) => {
   try {
     const msg = await ChannelMessage.findOne({ channel_msg_id });
     if (msg === null) res.send("no channel_msg_id : " + channel_msg_id);
-    else res.render("message/modify", { msg });
+    else
+      res.render("message/modify", {
+        msg,
+        channel_id_value_obj,
+        msg_type_code_value_obj,
+      });
   } catch (err) {
     //if (channel_msg_id === undefined || channel_msg_id === "")
     //res.send("channel_msg_id need! " + err);
@@ -186,7 +200,7 @@ router.use((req, res, next) => {
 
 //위에서 받은 Error객체를 통해 화면에 처리하는 미들웨어
 router.use((err, req, res, next) => {
-  console.log(err);
+  //console.log(err);
   res.status(err.status || 500);
   res.json({
     error: {

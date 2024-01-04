@@ -16,10 +16,10 @@
     <h2>메세지 정보 관리</h2>
     <ol class="breadcrumb">
       <li>
-        <a href="/Home/Index">Home</a>
+        <a href="../main">Home -></a>
       </li>
       <li>
-        <a>메세지 정보 관리</a>
+        <a href="../message/list">메세지 정보 관리 -></a>
       </li>
       <li class="active">
         <strong>조회</strong>
@@ -39,11 +39,11 @@
                 <div class="form-group">
                     <label class="control-label" for="OrderNo">채널명</label>
                     <select name="channel_id" id="channel_id" class="form-control">
-                        <option value="" <% if( searchOption.channel_id == ""){ %> selected <% } %> >전체</option>
-                        <option value=1 <% if( searchOption.channel_id == 1){ %> selected <% } %>>연구소채널</option>
-                        <option value=2 <% if( searchOption.channel_id == 2){ %> selected <% } %>>모름캠프채널</option>
-                        <option value=3 <% if( searchOption.channel_id == 3){ %> selected <% } %>>삼성채널</option>
-                        <option value=4 <% if( searchOption.channel_id == 4){ %> selected <% } %>>구글채널</option>
+                      <% var keys = Object.keys(channel_id_value_obj).sort();%>
+                        <% for(var i = 0; i < keys.length; i++){ %>
+                          <% var key = keys[i];%>
+                          <option value="<%= key %>" <% if (searchOption.channel_id == key) { %> selected <% } %> ><%= channel_id_value_obj[key] %></option>
+                      <% } %>
                     </select>
                 </div>
             </div>
@@ -57,12 +57,12 @@
               <div class="form-group">
                   <label class="control-label" for="OrderName">메세지타입</label>
                   <select name="msg_type_code" id="msg_type_code" class="form-control">
-                    <option value="" <% if( searchOption.msg_type_code == ""){ %> selected <% } %> >전체</option>
-                    <option value=1 <% if( searchOption.msg_type_code == 1){ %> selected <% } %>>입장</option>
-                    <option value=0 <% if( searchOption.msg_type_code == 0){ %> selected <% } %>>퇴장</option>
-                    <option value=3 <% if( searchOption.msg_type_code == 3){ %> selected <% } %>>일반메세지</option>
-                    <option value=4 <% if( searchOption.msg_type_code == 4){ %> selected <% } %>>파일메세지</option>
-                </select>
+                    <% var keys = Object.keys(msg_type_code_value_obj).sort();%>
+                      <% for(var i = 0; i < keys.length; i++){ %>
+                        <% var key = keys[i];%>
+                        <option value="<%= key %>" <% if (searchOption.msg_type_code == key) { %> selected <% } %> ><%= msg_type_code_value_obj[key] %></option>
+                    <% } %>
+                  </select>
               </div>
           </div>
         </div>
@@ -100,7 +100,6 @@
 
 
                             <% for(var i =0;i<msgs.length;i++){ %>
-                               
                                 <tr>
                                     <td>
                                       <a style="color: blue;" 
@@ -109,33 +108,11 @@
                                       </a>
                                     </td>
                                     <td>
-                                      <% if(msgs[i].channel_id == 1){%>
-                                        연구소채널
-                                      <%} else if(msgs[i].channel_id == 2){%>
-                                        모름캠프채널
-                                      <%} else if(msgs[i].channel_id == 3){%>
-                                        삼성채널
-                                      <%} else if(msgs[i].channel_id == 4){%>
-                                        구글채널
-
-                                      <% } else{ %>
-                                          기타
-                                      <% }%>
+                                      <%= channel_id_value_obj[msgs[i].channel_id] %>
                                     </td>
                                     <td><%=msgs[i].nick_name%></td>
                                     <td>
-                                        <% if(msgs[i].msg_type_code == 1){%>
-                                          입장
-                                        <%} else if(msgs[i].msg_type_code == 0){%>
-                                          퇴장
-                                        <%} else if(msgs[i].msg_type_code == 3){%>
-                                          일반메세지
-                                        <%} else if(msgs[i].msg_type_code == 4){%>
-                                          파일 메세지
-  
-                                        <% } else{ %>
-                                            기타
-                                        <% }%>
+                                      <%= msg_type_code_value_obj[msgs[i].msg_type_code] %>
                                     </td>
                                     <td>
                                       <% const maxLength = 15; %>
@@ -143,14 +120,8 @@
                                     </td>
                                     <td><%=msgs[i].ip_address%></td>
                                     <td>
-                                        <% if(msgs[i].msg_state_code == 1){%>
-                                            Y
-                                        <% } else{ %>
-                                            N
-                                        <% }%>
+                                        <%= msgs[i].msg_state_code == 1 ? 'Y' : 'N'%>       
                                     </td>
-                                    
-                                    
                                     <td><%=moment(msgs[i].msg_date).format('YYYY-MM-DD HH:mm')%></td>
                                     <td><%=moment(msgs[i].edit_date).format('YYYY-MM-DD HH:mm')%></td>
                                 </tr>
@@ -165,7 +136,6 @@
             </div>
         </div>
     </div>
-    <button onclick="showAlert(1234)">Click me</button>
 </div>
 <template id="my-template">
   <swal-title >
