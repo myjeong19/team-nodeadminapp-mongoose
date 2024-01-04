@@ -3,50 +3,50 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const { Schema } = mongoose;
 
-const member = new Schema({
-  email: {
+const channelSchema = new Schema({
+  community_id: {
+    type: Number,
+    required: true,
+  },
+  category_code: {
+    type: Number,
+    required: true,
+  },
+  channel_name: {
     type: String,
     required: true,
   },
-  member_password: {
+  user_limit: {
+    type: Number,
+    required: true,
+  },
+  channel_img_path: {
     type: String,
     required: true,
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  profile_img_path: {
+  channel_desc: {
     type: String,
     required: false,
   },
-  telephone: {
-    type: String,
-    required: true,
-  },
-  entry_type_code: {
+  channel_state_code: {
     type: Number,
-    required: true,
+    required: false,
   },
-  use_state_code: {
-    type: Number,
-    required: true,
-  },
-  birth_date: {
-    type: String,
-    required: true,
-  },
+
   reg_date: {
     type: Date,
     default: Date.now,
+    required: false,
   },
   reg_member_id: {
     type: Number,
-    required: true,
+    required: false,
   },
+
   edit_date: {
     type: Date,
     default: Date.now,
+    required: false,
   },
   edit_member_id: {
     type: Number,
@@ -54,6 +54,6 @@ const member = new Schema({
   },
 });
 
-member.plugin(AutoIncrement, { inc_field: 'member_id' });
+channelSchema.plugin(AutoIncrement, { inc_field: 'channel_id' });
 
-module.exports = mongoose.model('Member', member);
+module.exports = mongoose.model('Channel', channelSchema);
