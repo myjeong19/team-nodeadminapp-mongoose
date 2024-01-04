@@ -6,7 +6,7 @@ const connect = () => {
   }
 
   mongoose.connect(
-    'mongodb://myjeong19:7103@127.0.0.1:27017/admin',
+    'mongodb://young1:young123@127.0.0.1:27017/admin',
     {
       dbName: 'modu_chat',
     },
@@ -29,8 +29,9 @@ mongoose.connection.on('disconnected', () => {
   connect();
 });
 
-require('./article.js');
-require('./member.js');
+// require('./article.js');
+// require('./member.js');
 require('./admin_member.js');
+require('./articleFile.js');
 
 module.exports = connect;
