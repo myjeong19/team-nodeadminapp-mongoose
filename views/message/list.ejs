@@ -157,5 +157,41 @@
             </div>
         </div>
     </div>
-
+    <button onclick="showAlert()">Click me</button>
 </div>
+<template id="my-template">
+  <swal-title>
+    Save changes to "Untitled 1" before closing?
+  </swal-title>
+  <swal-icon type="warning" color="red"></swal-icon>
+  <swal-button type="confirm">
+    Save As
+  </swal-button>
+  <swal-button type="cancel">
+    Cancel
+  </swal-button>
+  <swal-button type="deny">
+    Close without Saving
+  </swal-button>
+  <swal-param name="allowEscapeKey" value="false" />
+  <swal-param
+    name="customClass"
+    value='{ "popup": "my-popup" }' />
+  <swal-function-param
+    name="didOpen"
+    value="popup => console.log(popup)" />
+</template>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+  // 버튼 클릭 시 호출되는 함수
+  
+
+  function showAlert(channel_msg_id) {
+    // 기본적인 알림 창
+    Swal.fire({
+      channel_msg_id,
+      template: "#my-template"
+    });
+
+  }
+</script>

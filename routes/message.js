@@ -3,6 +3,7 @@ const router = express.Router();
 var moment = require("moment");
 
 const ChannelMessage = require("../schemas/channelMessage");
+const Swal = require("sweetalert2");
 
 router.get("/list", async (req, res) => {
   var searchOption = {
@@ -11,6 +12,7 @@ router.get("/list", async (req, res) => {
     msg_type_code: "",
   };
   const msgs = await ChannelMessage.find({});
+
   res.render("message/list", { msgs, searchOption, moment });
 });
 

@@ -25,6 +25,7 @@
 
     <link href="css/animate.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
+
     <%- style%>
   </head>
 
@@ -914,14 +915,14 @@
 
     <script>
       $(document).ready(function () {
-        let toast = $('.toast');
+        let toast = $(".toast");
 
         setTimeout(function () {
           toast.toast({
             delay: 5000,
             animation: true,
           });
-          toast.toast('show');
+          toast.toast("show");
         }, 2200);
 
         var data1 = [
@@ -962,8 +963,8 @@
           [15, 0],
           [16, 0],
         ];
-        $('#flot-dashboard-chart').length &&
-          $.plot($('#flot-dashboard-chart'), [data1, data2], {
+        $("#flot-dashboard-chart").length &&
+          $.plot($("#flot-dashboard-chart"), [data1, data2], {
             series: {
               lines: {
                 show: false,
@@ -984,11 +985,11 @@
             grid: {
               hoverable: true,
               clickable: true,
-              tickColor: '#d5d5d5',
+              tickColor: "#d5d5d5",
               borderWidth: 1,
-              color: '#d5d5d5',
+              color: "#d5d5d5",
             },
-            colors: ['#1ab394', '#1C84C6'],
+            colors: ["#1ab394", "#1C84C6"],
             xaxis: {},
             yaxis: {
               ticks: 4,
@@ -997,11 +998,11 @@
           });
 
         var doughnutData = {
-          labels: ['App', 'Software', 'Laptop'],
+          labels: ["App", "Software", "Laptop"],
           datasets: [
             {
               data: [300, 50, 100],
-              backgroundColor: ['#a3e1d4', '#dedede', '#9CC3DA'],
+              backgroundColor: ["#a3e1d4", "#dedede", "#9CC3DA"],
             },
           ],
         };
@@ -1013,19 +1014,19 @@
           },
         };
 
-        var ctx4 = document.getElementById('doughnutChart').getContext('2d');
+        var ctx4 = document.getElementById("doughnutChart").getContext("2d");
         new Chart(ctx4, {
-          type: 'doughnut',
+          type: "doughnut",
           data: doughnutData,
           options: doughnutOptions,
         });
 
         var doughnutData = {
-          labels: ['App', 'Software', 'Laptop'],
+          labels: ["App", "Software", "Laptop"],
           datasets: [
             {
               data: [70, 27, 85],
-              backgroundColor: ['#a3e1d4', '#dedede', '#9CC3DA'],
+              backgroundColor: ["#a3e1d4", "#dedede", "#9CC3DA"],
             },
           ],
         };
@@ -1037,20 +1038,21 @@
           },
         };
 
-        var ctx4 = document.getElementById('doughnutChart2').getContext('2d');
+        var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
         new Chart(ctx4, {
-          type: 'doughnut',
+          type: "doughnut",
           data: doughnutData,
           options: doughnutOptions,
         });
       });
 
-      $(window).bind('scroll', function () {
-        let toast = $('.toast');
-        toast.css('top', window.pageYOffset + 20);
+      $(window).bind("scroll", function () {
+        let toast = $(".toast");
+        toast.css("top", window.pageYOffset + 20);
       });
     </script>
     <%- script %>
   </body>
   <%-script%>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
