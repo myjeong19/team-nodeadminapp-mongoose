@@ -99,7 +99,7 @@ router.post('/modify/:id', async (req, res) => {
       await Channel.deleteOne({ channel_id: selectedChannelId });
     }
   } catch (error) {
-    console.log(error);
+    console.log(`modify POST ERROR${error}`);
   }
 });
 

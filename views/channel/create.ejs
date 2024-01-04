@@ -32,17 +32,32 @@
       <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
-            <label class="control-label">게시글 고유번호</label>
-            <input type="text" class="form-control mb-3" name="community_id" />
+            <label class="control-label">커뮤니티 아이디</label>
+            <input
+              type="number"
+              class="form-control mb-3"
+              name="community_id"
+              id="community_id"
+            />
           </div>
           <div class="form-group">
-            <label class="control-label col-6">게시판 구분 코드</label>
-            <input type="text" class="form-control mb-3" name="category_code" />
+            <label class="control-label col-6">카테고리 코드</label>
+            <input
+              type="number"
+              class="form-control mb-3"
+              name="category_code"
+              id="category_code"
+            />
           </div>
 
           <div class="form-group">
             <label class="control-label">채널 명</label>
-            <input type="text" class="form-control" name="channel_name" />
+            <input
+              type="text"
+              class="form-control"
+              name="channel_name"
+              id="channel_name"
+            />
           </div>
           <div class="form-group d-flex flex-column">
             <label class="control-label">채널 설명</label>
@@ -59,31 +74,151 @@
         <div class="col-sm-6">
           <div class="form-group">
             <label class="control-label">채널 대표 이미지</label>
-            <input type="text" class="form-control" name="channel_img_path" />
+            <input
+              type="text"
+              class="form-control"
+              name="channel_img_path"
+              id="channel_img_path"
+            />
           </div>
           <div class="form-group">
             <label class="control-label">채널 상태 코드</label>
-            <input type="text" class="form-control" name="channel_state_code" />
+            <input
+              type="number"
+              class="form-control"
+              name="channel_state_code"
+              id="channel_state_code"
+            />
           </div>
           <div class="form-group">
             <label class="control-label">등록일시</label>
-            <input type="date" class="form-control" name="reg_date" />
+            <input
+              type="date"
+              class="form-control"
+              name="reg_date"
+              id="reg_date"
+            />
           </div>
           <div class="form-group">
             <label class="control-label">등록자 아이디</label>
-            <input type="text" class="form-control" name="reg_member_id" />
+            <input
+              type="text"
+              class="form-control"
+              name="reg_member_id"
+              id="reg_member_id"
+            />
           </div>
           <div class="form-group">
             <label class="control-label">동시 채널 접속자 수</label>
-            <input type="text" class="form-control" name="user_limit" />
+            <input
+              type="text"
+              class="form-control"
+              name="user_limit"
+              id="user_limit"
+            />
           </div>
         </div>
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">저장</button>
+        <button type="submit" class="btn btn-primary" id="button-save">
+          저장
+        </button>
         <a href="/channel/list" class="btn btn-info">목록</a>
       </div>
     </div>
   </div>
 </form>
+
+<script>
+  const buttonSave = document.getElementById('button-save');
+  const handleInfo = title => {
+    Swal.fire({
+      icon: 'error',
+      title: `${title} 입력해주세요.`,
+    });
+  };
+
+  const handleSave = e => {
+    const communityId = document.getElementById('community_id');
+    const categoryCode = document.getElementById('category_code');
+    const channelName = document.getElementById('channel_name');
+    const channelDesc = document.getElementById('channel_desc');
+    const channelImgPath = document.getElementById('channel_img_path');
+    const channelStateCode = document.getElementById('channel_state_code');
+    const regDate = document.getElementById('reg_date');
+    const regMemberId = document.getElementById('reg_member_id');
+    const userLimit = document.getElementById('user_limit');
+
+    if (community_id.value === '') {
+      e.preventDefault();
+      handleInfo('커뮤니티 아이디를');
+      communityId.focus();
+      return false;
+    }
+
+    if (categoryCode.value === '') {
+      e.preventDefault();
+      handleInfo('카테고리 코드를');
+      categoryCode.focus();
+      return false;
+    }
+
+    if (channelName.value === '') {
+      e.preventDefault();
+      handleInfo('채널 명을');
+      channelName.focus();
+      return false;
+    }
+
+    if (channelDesc.value === '') {
+      e.preventDefault();
+      handleInfo('채널 설명을');
+      channelDesc.focus();
+      return false;
+    }
+
+    if (channelImgPath.value === '') {
+      e.preventDefault();
+      handleInfo('채널 대표 이미지를');
+      channelImgPath.focus();
+      return false;
+    }
+
+    if (channelStateCode.value === '') {
+      e.preventDefault();
+      handleInfo('채널 상태 코드를');
+      channelStateCode.focus();
+      return false;
+    }
+
+    if (regDate.value === '') {
+      e.preventDefault();
+      handleInfo('등록일시를');
+      regDate.focus();
+      return false;
+    }
+
+    if (regMemberId.value === '') {
+      e.preventDefault();
+      handleInfo('등록자 아이디를');
+      regMemberId.focus();
+      return false;
+    }
+
+    if (userLimit.value === '') {
+      e.preventDefault();
+      handleInfo('동시 채널 접속자 수를');
+      userLimit.focus();
+      return false;
+    }
+
+    Swal.fire({
+      title: '저장 완료!',
+      text: '새로운 채널을 생상하였습니다.',
+      icon: 'success',
+    });
+  };
+
+  buttonSave.addEventListener('click', handleSave);
+</script>

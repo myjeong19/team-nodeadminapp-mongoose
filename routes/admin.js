@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Admin = require('../schemas/admin_member');
 
+const date = new Date();
+const getYear = date.getFullYear();
+const getMonth = date.getMonth();
+const getDay = date.getDate();
+const getTime = date.getTime();
+
 router.get('/list', async (req, res) => {
   try {
     const admins = await Admin.find({});
@@ -25,7 +31,9 @@ router.post('/list', async (req, res) => {
 });
 
 router.get('/create', async (req, res) => {
-  res.render('admin/create');
+  const nowDate = `${getYear}-${getMonth}-${getDay}`;
+
+  res.render('admin/create', { nowDate });
 });
 
 router.post('/create', async (req, res) => {
@@ -38,7 +46,6 @@ router.post('/create', async (req, res) => {
     telephone,
     used_yn_code,
     reg_member_id,
-    reg_date,
   } = req.body;
 
   const newAdmin = {
@@ -50,7 +57,6 @@ router.post('/create', async (req, res) => {
     telephone,
     used_yn_code,
     reg_member_id,
-    reg_date,
   };
 
   try {
