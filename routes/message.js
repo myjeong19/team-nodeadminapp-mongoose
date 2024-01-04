@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
-var moment = require("moment");
 
+//각종 라이브러리
+var moment = require("moment");
 const ChannelMessage = require("../schemas/channelMessage");
 const Swal = require("sweetalert2");
 
+//modify할 때 쓰이는 함수
+//modify에서 선언하면, route주소로 접근할때마다 함수가 재선언되니까 전역으로 선언함.
+//밑에서 다시 설명.
 const mergeByKey = (baseObj, otherObj) => {
   return Object.keys(baseObj).reduce((result, key) => {
     result[key] = otherObj[key];
@@ -12,21 +16,26 @@ const mergeByKey = (baseObj, otherObj) => {
   }, baseObj);
 };
 
+//searchOption 초기값으로 ""를 줘서
+//list.ejs에서는 ""가 들어오면 select메뉴는 전체를 가리키도록 함.
 router.get("/list", async (req, res) => {
   var searchOption = {
     channel_id: "",
     nick_name: "",
     msg_type_code: "",
   };
+
+  //모든 값 다 찾음
+  //수업시간에 pagination라이브러리 배웟는데, 게시글이 많으면 한번에 다 가져오니까
+  //성능이 안 좋음. 나중에 리액트같은 거 할 때, 필요한 만큼만 가져오는 식으로 구현할 거라 깊이 안 함
   const msgs = await ChannelMessage.find({});
 
   res.render("message/list", { msgs, searchOption, moment });
 });
 
+//조회코드
 router.post("/list", async (req, res) => {
-  var channel_id = req.body.channel_id;
-  var nick_name = req.body.nick_name;
-  var msg_type_code = req.body.msg_type_code;
+  var { channel_id, nick_name, msg_type_code } = req.body;
 
   var searchOption = {
     channel_id,
@@ -57,17 +66,18 @@ router.post("/list", async (req, res) => {
     return acc;
   }, {});
 
+  //filteredObject가 {}이므로, .find({filteredObject}) 이런 식으로 안씀
   const msgs = await ChannelMessage.find(filteredObject);
 
-  console.log("searchOption : ", searchOption);
-  console.log("filteredObject : ", filteredObject);
-  console.log("post list message : ", msgs);
   res.render("message/list", { msgs, searchOption, moment });
 });
 
+//신규등록 첫 화면
 router.get("/create", async (req, res) => {
   res.render("message/create");
 });
+
+//신규등록 확인 누를 때
 router.post("/create", async (req, res) => {
   var channel_id = req.body.channel_id;
   var member_id = req.body.member_id;
@@ -99,18 +109,30 @@ router.post("/create", async (req, res) => {
   res.redirect("/message/list");
 });
 
+//list에서 #id눌러서 수정화면 띄웠을 때
 router.get("/modify/:channel_msg_id", async (req, res) => {
   const channel_msg_id = req.params.channel_msg_id;
-  console.log(channel_msg_id);
+
+  //효원님이 이런 식으로 에러처리하는 거 같은데 이게 좋은듯
   try {
     const msg = await ChannelMessage.findOne({ channel_msg_id });
     if (msg === null) res.send("no channel_msg_id : " + channel_msg_id);
     else res.render("message/modify", { msg });
   } catch (err) {
-    console.log("err", err);
-    if (channel_msg_id === undefined || channel_msg_id === "")
-      res.send("channel_msg_id need! " + err);
-    else res.send("error!!! : " + err);
+    //if (channel_msg_id === undefined || channel_msg_id === "")
+    //res.send("channel_msg_id need! " + err);
+    //else res.send("error!!! : " + err);
+    //이런 식으로 에러처리했었는데, try문+router에서 에러처리하니까 필요없어서 수정
+
+    //에러케이스
+    //1. http://127.0.0.1:3001/message/modify/ㅁ
+    //-> catch문에서 잡힘
+    //2. http://127.0.0.1:3001/message/modify/
+    //-> 라우터에서 잡힘
+    //3. http://127.0.0.1:3001/message/modify/235023523
+    //-> try문에서 msg값이 null처리
+
+    res.send("error!!! : " + err);
   }
 });
 
@@ -120,14 +142,30 @@ router.post("/modify/:channel_msg_id", async (req, res) => {
   try {
     const msg = await ChannelMessage.findOne({ channel_msg_id });
 
+    //msg를 그냥 넣으면 동작안함.
+    //Object.keys(msg)에서는 [ '$__', '$isNew', '_doc' ] 이런 게 출력됨.
+    //for in이랑 다름.
+    //자세한 건 따로 정리
+
+    //원본인 msg를 result의 초기값으로 설정.
+    //msg의 key값을 순회하면서 해당 key값의 value를
+    //req.body에서 가져와서 덮어씌움.
+
+    // const mergeByKey = (baseObj, otherObj) => {
+    //   return Object.keys(baseObj).reduce((result, key) => {
+    //     result[key] = otherObj[key];
+    //     return result;
+    //   }, baseObj);
+    // };
+
     mergedObject = mergeByKey(msg.toJSON(), req.body);
+
+    //수정일시만 따로 설정
     mergedObject.edit_date = Date.now();
     await ChannelMessage.updateOne({ channel_msg_id }, mergedObject);
     res.redirect("/message/list");
   } catch (err) {
-    if (channel_msg_id === undefined || channel_msg_id === "")
-      res.send("channel_msg_id need! " + err);
-    else res.send("error!!! : " + err);
+    res.send("error!!! : " + err);
   }
 });
 
