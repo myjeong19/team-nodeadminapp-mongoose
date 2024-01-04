@@ -20,10 +20,10 @@
     <ol class="breadcrumb">
       <li>
         <a href="/main">홈</a>
-      </li>
+      </li>>
       <li>
         <a>관리자정보관리</a>
-      </li>
+      </li>>
       <li class="active">
         <strong>조회</strong>
       </li>
@@ -33,7 +33,7 @@
 </div>
 
 <!--우측 콘텐츠 영역 -->
-<form action="/member/modify/<%= user.reg_member_id%>" method="post">
+<form action="/member/modify/<%= user.member_id%>" method="post">
   <div class="wrapper wrapper-content">
     <div class="ibox-content m-b-sm border-bottom">
       <div class="row">
@@ -50,7 +50,7 @@
             <div>
               <label class="control-label">이메일</label>
               <input
-                type="text"
+                type="text" name="email"
                 class="form-control mb-3"
                 value="<%= user.email %>"
               />
@@ -58,23 +58,20 @@
             <div class="form-group">
               <label class="control-label col-6">이름</label>
               <input
-                type="text"
+                type="text" name="name" 
                 class="form-control mb-3"
                 value="<%= user.name %>"
               />
             </div>
             <div class="form-group">
-              <label class="control-label">고유번호</label>
-              <input
-                type="text"
-                class="form-control"
-                value="<%= user.reg_member_id %>"
-              />
+              <label class="control-label">암호</label>
+              <input type="password" name="member_password" 
+              class="form-control" />
             </div>
             <div class="form-group">
               <label class="control-label">전화번호</label>
               <input
-                type="text"
+                type="text" name="telephone" 
                 class="form-control"
                 value="<%= user.telephone%>"
               />
@@ -82,42 +79,33 @@
             <div class="form-group">
               <label class="control-label">생년월일</label>
               <input
-                type="text"
+                type="text" name="birth_date" 
                 class="form-control"
                 value="<%= user.birth_date %>"
               />
             </div>
             <div class="form-group">
               <label class="control-label">상태</label>
-              <input
-                type="text"
-                class="form-control"
-                value="<%= user.reg_date%>"
-              />
+              <select name="use_state_code" class="form-control" >
+                <option value="9" <% if(user.use_state_code=="9"){%>selected<%}%>>선택</option>
+                <option value="0" <% if(user.use_state_code=="0"){%>selected<%}%>>미사용</option>
+                <option value="1" <% if(user.use_state_code=="1"){%>selected<%}%>>사용중</option>
+              </select>
             </div>
             <div class="form-group">
               <label class="control-label">생성일시</label>
               <input
-                type="text"
-                class="form-control"
-                value="<%= user.user_state_code%>"
-              />
-            </div>
-            <div class="form-group">
-              <label class="control-label">수정일시</label>
-              <input
-                type="text"
-                class="form-control"
-                value="<%= user.edit_date%>"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="control-label">수정일시</label>
-              <input
-                type="text"
+                type="date" name="reg_date" readonly
                 class="form-control"
                 value="<%= user.reg_date%>"
+              />
+            </div>
+            <div class="form-group">
+              <label class="control-label">수정일시</label>
+              <input
+                type="date" name="edit_date" name="edit_date" readonly
+                class="form-control"
+                value="<%= user.edit_date%>"
               />
             </div>
           </div>
@@ -126,8 +114,18 @@
 
       <div class="text-center">
         <button type="submit" class="btn btn-primary">저장</button>
+        <a href="/member/delete?id=<%=user.member_id%>" class="btn btn-danger">삭제</a>
         <a href="/member/list" class="btn btn-info">목록</a>
       </div>
     </div>
   </div>
 </form>
+
+<script>
+  document.getElementById('edit_date').value=new Date().toISOString().slice(0, 10);
+  
+  //reg_date, edit_date yyyy-MM-dd 포맷 만들기(*해결중*)
+
+  //유효성검사
+
+</script>
