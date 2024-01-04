@@ -60,15 +60,20 @@
     </div>
   </form>
 
+  <!-- 게시글 전체 건수 조회 표시 영역 -->
+  <div class="row">
+    <div class="col-12">총 <%= adminCount%>건 / <%= admins.length%>건 조회</div>
+  </div>
+  <!-- 게시글 조회결과 목록 표시 -->
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
         <div class="ibox-content">
           <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="footable table table-hover" data-page-size="3">
               <thead>
                 <tr>
-                  <th width="10%">관리자 고유번호</th>
+                  <th data-sort-ignore="true" width="10%">관리자 고유번호</th>
                   <th width="5%">소속회사 코드</th>
                   <th width="10%">관리자 이름</th>
                   <th width="10%">관리자 계정 아이디</th>
@@ -106,6 +111,13 @@
                 </tr>
                 <% } %>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="7">
+                    <ul class="pagination pull-left"></ul>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>
@@ -113,3 +125,10 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  $(document).ready(function () {
+      $('.footable').footable();
+  });
+</script>

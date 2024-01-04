@@ -36,7 +36,6 @@ const adminMemberSchema = new Schema({
     type: Number,
     required: true,
   },
-
   reg_date: {
     type: Date,
     default: Date.now,
@@ -45,7 +44,6 @@ const adminMemberSchema = new Schema({
     type: Number,
     required: true,
   },
-
   edit_date: {
     type: Date,
     default: Date.now,

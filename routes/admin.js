@@ -3,24 +3,38 @@ const router = express.Router();
 const Admin = require('../schemas/admin_member');
 
 router.get('/list', async (req, res) => {
+
+  var searchOption = {
+    admin_name:"",
+    admin_id:"",
+    used_yn_code:"",
+  };
+
   try {
     const admins = await Admin.find({});
-    res.render('admin/list', { admins });
+
+    var adminCount = await Admin.count();
+
+    res.render('admin/list', { admins,searchOption,adminCount });
   } catch (error) {}
 });
 
 router.post('/list', async (req, res) => {
-  const { admin_name, admin_id, used_yn_code } = req.body;
+  var { admin_name, admin_id, used_yn_code } = req.body;
 
-  const searchOption = {
+  var searchOption = {
     admin_name,
     admin_id,
     used_yn_code,
   };
 
   try {
-    const admins = await Admin.find({});
-    res.render('admin/list', { admins });
+
+    const admins = await Admin.find({admin_name:searchOption.admin_name});
+
+    var adminCount = await Admin.count();
+
+    res.render('admin/list', { admins,searchOption,adminCount });
   } catch (error) {}
 });
 
@@ -87,7 +101,7 @@ router.post('/modify/:id', async (req, res) => {
     used_yn_code,
     reg_member_id,
     reg_date,
-    edit_user,
+    edit_member_id,
     edit_date,
     action,
   } = req.body;
@@ -102,7 +116,7 @@ router.post('/modify/:id', async (req, res) => {
     used_yn_code,
     reg_member_id,
     reg_date,
-    edit_user,
+    edit_member_id,
     edit_date,
   };
 
