@@ -6,7 +6,7 @@ const connect = () => {
   }
 
   mongoose.connect(
-    "mongodb://eddy:eddy524640!@localhost:27017/",
+    'mongodb://young1:young123@127.0.0.1:27017/admin',
     {
       dbName: "modu_chat",
     },
@@ -28,6 +28,7 @@ mongoose.connection.on("disconnected", () => {
   console.error("몽고디비 연결이 끊겼습니다. 연결을 재시도합니다.");
   connect();
 });
+
 
 require("./article.js");
 require("./member.js");
