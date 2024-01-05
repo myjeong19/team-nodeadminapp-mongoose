@@ -37,11 +37,14 @@
             <div>
               <label class="control-label">채널</label>
               <select name="channel_id" id="channel_id" class="form-control">
-                <option value=1 <% if( msg.channel_id == 1){ %> selected <% } %>>연구소채널</option>
-                <option value=2 <% if( msg.channel_id == 2){ %> selected <% } %>>모름캠프채널</option>
-                <option value=3 <% if( msg.channel_id == 3){ %> selected <% } %>>삼성채널</option>
-                <option value=4 <% if( msg.channel_id == 4){ %> selected <% } %>>구글채널</option>
-              </select>
+                <% var keys = Object.keys(channel_id_value_obj).sort();%>
+                  <% for(var i = 0; i < keys.length; i++){ %>
+                    <% var key = keys[i];%>
+                    <% if (key !== "") {%>
+                      <option value="<%= key %>" <% if (msg.channel_id == key) { %> selected <% } %> ><%= channel_id_value_obj[key] %></option>
+                    <% } %>    
+                <% } %>
+              </select>              
             </div>
             <div class="form-group">
               <label class="control-label col-6">사용자 고유번호</label>
@@ -54,11 +57,16 @@
             <div class="form-group">
               <label class="control-label">메세지 유형</label>
               <select name="msg_type_code" id="msg_type_code" class="form-control">
-                <option value=1 <% if( msg.msg_type_code == 1){ %> selected <% } %>>입장</option>
-                <option value=0 <% if( msg.msg_type_code == 0){ %> selected <% } %>>퇴장</option>
-                <option value=3 <% if( msg.msg_type_code == 3){ %> selected <% } %>>일반메세지</option>
-                <option value=4 <% if( msg.msg_type_code == 4){ %> selected <% } %>>파일메세지</option>
-            </select>
+                <% var keys = Object.keys(msg_type_code_value_obj).sort(); %>
+                <% for (var i = 0; i < keys.length; i++) { %>
+                  <% var key = keys[i]; %>
+                  <% if (key !== "") {%>
+                  <option value="<%= key %>" <% if (msg.msg_type_code == key) { %> selected <% } %> >
+                    <%= msg_type_code_value_obj[key] %>
+                  </option>
+                  <% } %>
+                <% } %>
+              </select>
             </div>
             <div class="form-group">
               <label class="control-label">message</label>
