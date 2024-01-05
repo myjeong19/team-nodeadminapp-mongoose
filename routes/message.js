@@ -5,7 +5,6 @@ const path = require("path");
 const app = express();
 
 // 정적 파일을 제공할 디렉토리 설정
-app.use("/", express.static(path.join(__dirname, "public")));
 
 //각종 라이브러리
 var moment = require("moment");
@@ -94,25 +93,14 @@ router.get("/create", async (req, res) => {
 
 //신규등록 확인 누를 때
 router.post("/create", async (req, res) => {
-  var channel_id = req.body.channel_id;
-  var member_id = req.body.member_id;
-  var nick_name = req.body.nick_name;
-  var msg_type_code = req.body.msg_type_code;
-  var connection_id = req.body.connection_id;
-  var message = req.body.message;
-  var ip_address = req.body.ip_address;
-
-  //var top_channel_msg_id = req.body.top_channel_msg_id;
-  //var msg_state_code = req.body.msg_state_code;
-
   var msg = {
-    channel_id,
-    member_id,
-    nick_name,
-    msg_type_code,
-    connection_id,
-    message,
-    ip_address,
+    channel_id: req.body.channel_id,
+    member_id: req.body.member_id,
+    nick_name: req.body.nick_name,
+    msg_type_code: req.body.msg_type_code,
+    connection_id: req.body.connection_id,
+    message: req.body.message,
+    ip_address: req.body.ip_address,
     top_channel_msg_id: 999,
     msg_state_code: 1,
     msg_date: Date.now(),
@@ -131,7 +119,8 @@ router.get("/modify/:channel_msg_id", async (req, res) => {
   //효원님이 이런 식으로 에러처리하는 거 같은데 이게 좋은듯
   try {
     const msg = await ChannelMessage.findOne({ channel_msg_id });
-    if (msg === null) res.send("no channel_msg_id : " + channel_msg_id);
+    if (msg === null)
+      res.status(404).send("no channel_msg_id : " + channel_msg_id);
     else
       res.render("message/modify", {
         msg,
@@ -152,16 +141,14 @@ router.get("/modify/:channel_msg_id", async (req, res) => {
     //3. http://127.0.0.1:3001/message/modify/235023523
     //-> try문에서 msg값이 null처리
 
-    res.send("error!!! : " + err);
+    res.status(400).send("error!!! : " + err);
   }
 });
 
 router.post("/modify/:channel_msg_id", async (req, res) => {
   var channel_msg_id = req.params.channel_msg_id;
-
   try {
     const msg = await ChannelMessage.findOne({ channel_msg_id });
-
     //msg를 그냥 넣으면 동작안함.
     //Object.keys(msg)에서는 [ '$__', '$isNew', '_doc' ] 이런 게 출력됨.
     //for in이랑 다름.
@@ -177,15 +164,13 @@ router.post("/modify/:channel_msg_id", async (req, res) => {
     //     return result;
     //   }, baseObj);
     // };
-
-    mergedObject = mergeByKey(msg.toJSON(), req.body);
-
+    var mergedObject = mergeByKey(msg.toJSON(), req.body);
     //수정일시만 따로 설정
     mergedObject.edit_date = Date.now();
     await ChannelMessage.updateOne({ channel_msg_id }, mergedObject);
     res.redirect("/message/list");
   } catch (err) {
-    res.send("error!!! : " + err);
+    res.status(400).send("error!!! : " + err);
   }
 });
 
@@ -194,10 +179,8 @@ router.get("/delete", async (req, res) => {
 });
 
 //아래의 에러처리 코드는 무조건 router정의가 다 끝난 최하단에 위치해야 함.
-
 //위에서 정의하지 않은 라우터에 대한 모든 요청에 대해서
 //Error 객체를 생성하는 아래의 미들웨어를 실행한다.
-
 router.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
